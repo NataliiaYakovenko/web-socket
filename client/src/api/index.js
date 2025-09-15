@@ -1,6 +1,7 @@
 import axios from "axios";
 import { io } from "socket.io-client";
 
+
 const axiosOptions = {
   baseURL: "http://127.0.0.1:5000/api",
 };
@@ -30,3 +31,6 @@ socket.on('TO_EVERYONE', (payload)=>{
   alert(payload);
 })
 
+
+
+  socket.emit("TO_SERVER", "Some message");
