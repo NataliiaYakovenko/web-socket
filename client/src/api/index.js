@@ -11,25 +11,12 @@ const apiInstance = axios.create(axiosOptions);
 export const getMessages = (limit) =>
   apiInstance.get(`/messages?limit=${limit}`);
 
-export const createMessage = (newMessage) =>
-  apiInstance.post("/messages", newMessage);
-
 const socket = io("ws://localhost:5000");
 
-socket.on("HELLO_SELF", (payload) => {
+
+export const createMessage =payload=>{
   console.log(payload);
-  alert(payload);
-});
-
-socket.on('NEW_ANOTHER_SOCKET', (payload)=>{
- console.log(payload);
-  alert(payload);
-})
-
-socket.on('TO_EVERYONE', (payload)=>{
- console.log(payload);
-  alert(payload);
-})
+  socket.emit('NEW_MESSAGE', payload)}
 
 
 

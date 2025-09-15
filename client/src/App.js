@@ -1,19 +1,18 @@
 import { useEffect, useLayoutEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
+import { connect } from 'react-redux';
 import {
-  createMessageThunk,
   getMessagesThunk,
 } from './store/slices/messagesSlice';
 import './App.css';
-import { connect } from 'react-redux';
+import { createMessage } from './api';
 
-function App ({ messages, isFetching, error, limit, create, get }) {
+function App ({ messages, isFetching, error, limit,  get }) {
   useEffect(() => {
     get(limit);
   }, [limit]);
 
   useLayoutEffect(() => {
-    // window.scrollTo(0, document.body.scrollHeight);
     window.scrollTo({
       top: document.body.scrollHeight,
       behavior: 'smooth',
@@ -21,7 +20,7 @@ function App ({ messages, isFetching, error, limit, create, get }) {
   }, [messages.length]);
 
   const addMessage = (values, formikBag) => {
-    create(values);
+   createMessage(values)
     formikBag.resetForm();
   };
 
@@ -53,7 +52,7 @@ const mapStateToProps = ({ chat }) => chat;
 
 const mapDispatchToProps = dispatch => ({
   get: limit => dispatch(getMessagesThunk(limit)),
-  create: values => dispatch(createMessageThunk(values)),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

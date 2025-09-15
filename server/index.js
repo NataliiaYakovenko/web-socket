@@ -18,9 +18,21 @@ io.on("connection", (socket) => {
 
   socket.on("TO_SERVER", (payload) => {
     console.log(payload);
-    alert(payload);
+   // alert(payload);
   });
+
+
+  socket.on("NEW_MESSAGE", (payload) => {
+    console.log(payload);
+   // alert(payload);
+  });
+
+
 });
+
+
+
+
 
 httpServer.listen(PORT, () => {
   console.log(`Server is running!`);
