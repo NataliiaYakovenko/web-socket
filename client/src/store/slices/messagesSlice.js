@@ -1,13 +1,13 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as API from '../../api';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import * as API from "../../api";
 
-const MESSAGES_SLICE_NAME = 'messages';
+const MESSAGES_SLICE_NAME = "messages";
 
 export const getMessagesThunk = createAsyncThunk(
   `${MESSAGES_SLICE_NAME}/get`,
   async (payload, thunkAPI) => {
     try {
-      console.log('payload :>> ', payload);
+      console.log("payload :>> ", payload);
       const response = await API.getMessages(payload);
       return response.data.data;
     } catch (err) {
@@ -38,9 +38,21 @@ const initialState = {
 const messagesSlice = createSlice({
   name: MESSAGES_SLICE_NAME,
   initialState,
-  extraReducers: builder => {
+  reducers: {
+    newMessageSuccess: (state, { payload }) => {
+      state.error = null;
+      if (state.messages.length >= state.limit) {
+        state.messages.splice(0, 1);
+      }
+      state.messages.push(payload);
+    },
+    newMessageError: (state, { payload }) => {
+      state.error = payload;
+    },
+  },
+  extraReducers: (builder) => {
     // GET
-    builder.addCase(getMessagesThunk.pending, state => {
+    builder.addCase(getMessagesThunk.pending, (state) => {
       state.isFetching = true;
       state.error = null;
     });
@@ -72,6 +84,8 @@ const messagesSlice = createSlice({
   },
 });
 
-const { reducer } = messagesSlice;
+const { reducer, actions } = messagesSlice;
+
+export const { newMessageSuccess, newMessageError } = actions;
 
 export default reducer;
