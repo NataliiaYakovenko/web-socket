@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "./rootReducer";
-import { brinfStoreToSocket } from "../api";
+import { ws } from "../api";
 
 const store = configureStore({ reducer: rootReducer });
 
-brinfStoreToSocket(store);
+ws.brinfStoreToSocket(store);
 
 export default store;
